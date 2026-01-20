@@ -1,5 +1,5 @@
+using Application;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Persistence.db;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +14,11 @@ builder.Services.AddDbContext<AppDbContext>(
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddCors();
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegistration).Assembly);
+    cfg.LicenseKey = builder.Configuration["MediatR:LicenseKey"];
+});
 
 var app = builder.Build();
 
