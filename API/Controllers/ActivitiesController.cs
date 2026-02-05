@@ -1,20 +1,20 @@
+using Application.ActivitiesFeature.Commands;
 using Application.ActivitiesFeature.Queries;
 using Domain.entities;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace API.Controllers
 {
 
-    public class ActivitiesController(IMediator mediator) : BaseApiController
+    public class ActivitiesController() : BaseApiController
     {
 
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
 
-            return await mediator.Send(new GetActivitiesList.Query());
+            return await Mediator.Send(new GetActivitiesList.Query());
 
         }
 
@@ -22,8 +22,21 @@ namespace API.Controllers
         public async Task<ActionResult<Activity>> GetActivityDetails(string id)
         {
 
-            return await mediator.Send(new GetActivityDetails.Query { Id = id });
+            return await Mediator.Send(new GetActivityDetails.Query { Id = id });
 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateActivity(Activity activity)
+        {
+            return await Mediator.Send(new CreateActivity.Command { Activity = activity });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditActivity(Activity activity)
+        {            
+            await Mediator.Send(new EditActivity.Command { Activity = activity });
+            return Ok();
         }
     }
 }

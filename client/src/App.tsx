@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Activity } from './lib/types';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
 
 
@@ -14,14 +14,23 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <Typography variant="h3">Adirs Evvvents 🥳</Typography>
-      <List>
+    <div className="container mx-auto p-6">
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
+        Adirs Evvvents 🥳
+      </h1>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {activities.map((activity) => (
-          <ListItem key={activity.id}><ListItemText>{activity.title}</ListItemText></ListItem>
+          <Card key={activity.id}>
+            <CardHeader>
+              <CardTitle>{activity.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">{activity.category}</p>
+            </CardContent>
+          </Card>
         ))}
-      </List>
-    </>
+      </div>
+    </div>
   );
 };
 
