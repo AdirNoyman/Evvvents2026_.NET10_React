@@ -32,11 +32,12 @@ namespace API.Controllers
             return await Mediator.Send(new CreateActivity.Command { Activity = activity });
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditActivity(Activity activity)
-        {            
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditActivity(string id, [FromBody] Activity activity)
+        {
+            activity.Id = id;
             await Mediator.Send(new EditActivity.Command { Activity = activity });
-            return Ok();
+            return NoContent();
         }
     }
 }
